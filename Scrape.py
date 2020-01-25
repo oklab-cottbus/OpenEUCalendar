@@ -1,4 +1,4 @@
-#!pip3 install requests
+# !pip3 install requests
 import requests
 import csv
 import hashlib
@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import locale
 locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
-locale.getlocale()
+print(locale.getlocale())
 
 Seite = requests.get("https://ec.europa.eu/commission/commissioners/2019-2024/calendar_en")
 
@@ -23,7 +23,7 @@ with open('Kalender.csv',mode='a') as csvwrite:
         TagName = Eintrag.select(".date-block__day-text")[0].getText()
         TagZahl = Eintrag.select(".date-block__day")[0].getText()
         Monat = Eintrag.select(".date-block__month")[0].getText()
-        Jahr = datetime.today().strftime(%Y)
+        Jahr = datetime.today().strftime("%Y")
         #Temporäre Zeit für den vergleich der Aktuellen und der Teminzeit um die Jahreszahl zu ermitteln
         TempTime ="23:59:59"
 
@@ -38,11 +38,12 @@ with open('Kalender.csv',mode='a') as csvwrite:
 
         TimeNow = datetime.today()
         TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl+" "+TempTime,"%Y-%b-%d %H:%M:%S")
-        if(TimeAppoint < TimeNow){
+        if(TimeAppoint < TimeNow):
             Jahr = str(int(Jahr)+1)
-        }
+
         TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl,"%Y-%b-%d")
         TimeSeen = datetime.timestamp(datetime.now())
+        TimeDeleted = "NA"
 
         #Erkennen von fehlenden Klassen
         if(len(Eintrag.select(".locality")) == 1):
@@ -54,7 +55,7 @@ with open('Kalender.csv',mode='a') as csvwrite:
         #Erstellen einen Hashs, um später Duplikate entfernen zu können
         EventString = TagName+TagZahl+Monat+Titel+Personen+Ort+Land
         EventHash = hashlib.sha1(EventString.encode('utf-8')).hexdigest()
-        euwriter.writerow([TagName,TagZahl,Monat,Titel,Personen,Ort,Land,EventHash,TimeAppoint,TimeSeen])
+        euwriter.writerow([TagName,TagZahl,Monat,Titel,Personen,Ort,Land,EventHash,TimeAppoint,TimeSeen,TimeDeleted])
 
 #Duplikate entfernen
 with open('Kalender.csv', mode='r') as csvread,open('Kalender_filtered.csv', mode='w') as csvwrite:
