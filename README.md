@@ -6,7 +6,8 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
 ### TODO
     - Speicherort der Kalender.csv ändern, damit remote zugriff möglich
       - zumbeispiel NAS
-      
+    - TimeDeleted muss erkannt werden
+
 ### Daten Scrapen
 - Jahreszahl muss noch hinzugefügt werden
   - muss zum zeitpunkt des scrapings gemacht werden
@@ -16,7 +17,7 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
 
 ### Daten einlesen
   - csv einlesen
-  
+
 ### Daten verändern
   - Wochentage in der csv sind auch manchmal "von bis"
     - also: Thu-Fri
@@ -24,8 +25,7 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
   - Teilweise keine Orte angegeben
     - Was ist da los?
       - Meist handelt es sich bei diesen Terminen um Einladungen von den jeweiligen Kommissionsmitgliedern, Somit scheint das Treffen am Ort des jeweiligen Kommisionsbüros statt zu finden. ABer welches. Luxemburg oder Belgien???
-      
-      
+
+
 # NTN
 mögliche locales des Systems über bash:``locale -a`` herausfinden
-    
