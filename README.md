@@ -4,14 +4,8 @@ CSV Dateien mit den gesammelten Terminen soll auf einer Karte visualisiert werde
 Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt werden
 
 ### TODO
-  - neue spalte in python hinzugefügt(TimeAppoint,TimeSeen)
-    - existierender csv file muss angepasst werden bevor das nächste mal das skript läuft
-    - alte zeitbeschreibungen sind eigentlich redundant
-      - Haswert wird aber damit berechnet....
-  - in R müsste System locale muss geändert werden, damit auf englisch abgekürzte Monate von strptime()
-    erkannt werden können
-    - Monat kan  vielleicht auch direkt beim Scrapen durchgeführt werden
-      - manuelles gsub
+    - Speicherort der Kalender.csv ändern, damit remote zugriff möglich
+      - zumbeispiel NAS
       
 ### Daten Scrapen
 - Jahreszahl muss noch hinzugefügt werden
