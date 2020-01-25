@@ -7,6 +7,7 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
   - neue spalte in python hinzugefügt(TimeAppoint,TimeSeen)
     - existierender csv file muss angepasst werden bevor das nächste mal das skript läuft
     - alte zeitbeschreibungen sind eigentlich redundant
+      - Haswert wird aber damit berechnet....
   - in R müsste System locale muss geändert werden, damit auf englisch abgekürzte Monate von strptime()
     erkannt werden können
     - Monat kan  vielleicht auch direkt beim Scrapen durchgeführt werden
