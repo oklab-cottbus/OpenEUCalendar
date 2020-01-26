@@ -6,9 +6,28 @@ import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 import locale
+import pandas as pd
 locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
 print(locale.getlocale())
 pagenr = 0
+
+df_all = pd.read_csv("Test.csv", sep = ";",quotechar='"')
+print(df_all)
+df_new = {  "TagName":[],
+            "TagZahl":[],
+            "Monat":[],
+            "Titel":[],
+            "Personen":[],
+            "Ort":[],
+            "Land":[],
+            "EventHash":[],
+            "TimeAppoint":[],
+            "TimeFirstSeen":[],
+            "TimeLastSeen":[]}
+seenall = set()
+
+for row in range(1,len(df_all["EventHash"])):
+    seenall.add(df_all.loc[row,"EventHash"])
 
 while True:
     Seite = requests.get("https://ec.europa.eu/commission/commissioners/2019-2024/calendar_en?page="+ str(pagenr))
@@ -20,59 +39,85 @@ while True:
         break
 
     #CSV Datei erstellen
-    with open('Kalender.csv',mode='a') as csvwrite:
-        euwriter = csv.writer(csvwrite,delimiter=';', quotechar='"', quoting = csv.QUOTE_MINIMAL)
-        #euwriter.writerow(["TagName","TagZahl","Monat","Titel","Personen","Ort","Land","EventHash"])
-        #Alle Einträge der Seite einlesen
-        for Eintrag in Eintraege:
-            TagName = Eintrag.select(".date-block__day-text")[0].getText()
-            TagZahl = Eintrag.select(".date-block__day")[0].getText()
-            Monat = Eintrag.select(".date-block__month")[0].getText()
-            Jahr = datetime.today().strftime("%Y")
-            #Temporäre Zeit für den vergleich der Aktuellen und der Teminzeit um die Jahreszahl zu ermitteln
-            TempTime ="23:59:59"
-
-            Titel = Eintrag.select(".listing__title")[0].getText()
-            Personen = Eintrag.select(".listing__author")[0].getText()
-            #Datetime Objekt erstellen
-            # definiere Jahr als aktuelles jahr
-            # Konvertierung des Termins mit aktueller Jahreszahl als datetime objekt
-            # vergleichen dieses objekts mit dem aktuellem Datum
-            # wenn termin vor aktuellem datum dann ist jahr = jahr+1
-            # wenn nicht dann ist jahr = jahr
-
-            TimeNow = datetime.today()
-            TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl+" "+TempTime,"%Y-%b-%d %H:%M:%S")
-            if(TimeAppoint < TimeNow):
-                Jahr = str(int(Jahr)+1)
-
-            TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl,"%Y-%b-%d")
-            TimeSeen = datetime.timestamp(datetime.now())
-            TimeDeleted = "NA"
-
-            #Erkennen von fehlenden Klassen
-            if(len(Eintrag.select(".locality")) == 1):
-                Ort = Eintrag.select(".locality")[0].getText()
-                Land = Eintrag.select(".country")[0].getText()
-            else:
-                Ort = "NA"
-                Land = "NA"
-            #Erstellen einen Hashs, um später Duplikate entfernen zu können
-            EventString = TagName+TagZahl+Monat+Titel+Personen+Ort+Land
-            EventHash = hashlib.sha1(EventString.encode('utf-8')).hexdigest()
-            euwriter.writerow([TagName,TagZahl,Monat,Titel,Personen,Ort,Land,EventHash,TimeAppoint,TimeSeen,TimeDeleted])
-
-    #Duplikate entfernen
-    with open('Kalender.csv', mode='r') as csvread,open('Kalender_filtered.csv', mode='w') as csvwrite:
-        euread = csv.reader(csvread,delimiter=';', quotechar='"', quoting = csv.QUOTE_MINIMAL)
-        euwrite = csv.writer(csvwrite,delimiter=';', quotechar='"', quoting = csv.QUOTE_MINIMAL)
-        #euwrite.writerow(["TagName","TagZahl","Monat","Titel","Personen","Ort","Land","EventHash"])
-        seen = set()
-        for row in euread:
-            if row[7] not in seen:
-                euwrite.writerow(row)
-                seen.add(row[7])
 
 
-    os.rename('Kalender_filtered.csv', 'Kalender.csv')
+    #Alle Einträge der Seite einlesen
+    for Eintrag in Eintraege:
+        TagName = Eintrag.select(".date-block__day-text")[0].getText()
+        TagZahl = Eintrag.select(".date-block__day")[0].getText()
+        Monat = Eintrag.select(".date-block__month")[0].getText()
+        Jahr = datetime.today().strftime("%Y")
+        #Temporäre Zeit für den vergleich der Aktuellen und der Teminzeit um die Jahreszahl zu ermitteln
+        TempTime ="23:59:59"
+
+        Titel = Eintrag.select(".listing__title")[0].getText()
+        Personen = Eintrag.select(".listing__author")[0].getText()
+        #Datetime Objekt erstellen
+        # definiere Jahr als aktuelles jahr
+        # Konvertierung des Termins mit aktueller Jahreszahl als datetime objekt
+        # vergleichen dieses objekts mit dem aktuellem Datum
+        # wenn termin vor aktuellem datum dann ist jahr = jahr+1
+        # wenn nicht dann ist jahr = jahr
+
+        TimeNow = datetime.today()
+        TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl+" "+TempTime,"%Y-%b-%d %H:%M:%S")
+        if(TimeAppoint < TimeNow):
+            Jahr = str(int(Jahr)+1)
+
+        TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl,"%Y-%b-%d")
+        TimeFirstSeen = datetime.timestamp(datetime.now())
+        TimeLastSeen = datetime.timestamp(datetime.now())
+
+        #Erkennen von fehlenden Klassen
+        if(len(Eintrag.select(".locality")) == 1):
+            Ort = Eintrag.select(".locality")[0].getText()
+            Land = Eintrag.select(".country")[0].getText()
+        else:
+            Ort = "NA"
+            Land = "NA"
+        #Erstellen einen Hashs, um später Duplikate entfernen zu können
+        EventString = TagName+TagZahl+Monat+Titel+Personen+Ort+Land
+        EventHash = hashlib.sha1(EventString.encode('utf-8')).hexdigest()
+
+        if EventHash in seenall:
+            index = df_all[df_all['EventHash']==EventHash].index.item()
+            print(index)
+            df_all.loc[index,"TimeLastSeen"] = TimeLastSeen
+        else:
+            new_row = {  "TagName":TagName,
+                        "TagZahl":TagZahl,
+                        "Monat":Monat,
+                        "Titel":Titel,
+                        "Personen":Personen,
+                        "Ort":Ort,
+                        "Land":Land,
+                        "EventHash":EventHash,
+                        "TimeAppoint":TimeAppoint,
+                        "TimeFirstSeen":TimeFirstSeen,
+                        "TimeLastSeen":TimeLastSeen}
+
+            df_all.append(new_row, ignore_index=True)
+
+
+# #Duplikate entfernen
+# with open('Kalender_new.csv', mode='r') as csvnew,open('Kalender.csv', mode='r') as csvall,open('Kalender_filtered.csv', mode='w') as csvwrite:
+#     eunew = csv.reader(csvnew,delimiter=';', quotechar='"', quoting = csv.QUOTE_MINIMAL)
+#     euall = csv.reader(csvall,delimiter=';', quotechar='"', quoting = csv.QUOTE_MINIMAL)
+#     euwrite = csv.writer(csv,delimiter=';', quotechar='"', quoting = csv.QUOTE_MINIMAL)
+#     #euwrite.writerow(["TagName","TagZahl","Monat","Titel","Personen","Ort","Land","EventHash"])
+#     seenall = set()
+#     seennew = set()
+#     for row in euall:
+#         seenall.add(row[7])
+#     for row in eunew:
+#         seennew.add(row[7])
+#     for row in euall:
+#         if row[7] not in seennew:
+
+
+
+    #os.rename('Kalender_filtered.csv', 'Kalender.csv')
     pagenr = pagenr+1
+
+print(df_all)
+df_all.to_csv("Test.csv", sep=';', quoting = 1,quotechar='"',index=False)

@@ -7,6 +7,9 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
     - Speicherort der Kalender.csv ändern, damit remote zugriff möglich
       - zumbeispiel NAS
     - TimeDeleted muss erkannt werden
+      - Termine einlesen
+      - full frame einlesen
+      - wenn termin schon enthalten nur TimeLastSeen updatens
 
 ### Daten Scrapen
 - Jahreszahl muss noch hinzugefügt werden
