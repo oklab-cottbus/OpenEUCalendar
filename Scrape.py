@@ -12,7 +12,7 @@ print(locale.getlocale())
 pagenr = 0
 
 df_all = pd.read_csv("Kalender.csv", sep = ";",quotechar='"')
-print(df_all)
+print(df_all["EventHash"])
 df_new = {  "TagName":[],
             "TagZahl":[],
             "Monat":[],
