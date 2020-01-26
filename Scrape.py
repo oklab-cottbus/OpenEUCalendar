@@ -12,7 +12,7 @@ print(locale.getlocale())
 pagenr = 0
 
 df_all = pd.read_csv("Kalender.csv", sep = ";",quotechar='"')
-print(df_all)
+#print(df_all)
 df_new = {  "TagName":[],
             "TagZahl":[],
             "Monat":[],
@@ -81,7 +81,7 @@ while True:
 
         if EventHash in seenall:
             index = df_all[df_all['EventHash']==EventHash].index.item()
-            print(index)
+            #print(index)
             df_all.loc[index,"TimeLastSeen"] = TimeLastSeen
         else:
             new_row = {  "TagName":TagName,
@@ -119,5 +119,5 @@ while True:
     #os.rename('Kalender_filtered.csv', 'Kalender.csv')
     pagenr = pagenr+1
 
-print(df_all)
+#print(df_all)
 df_all.to_csv("Kalender.csv", sep=';', quoting = 1,quotechar='"',index=False)
