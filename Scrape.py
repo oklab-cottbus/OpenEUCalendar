@@ -11,7 +11,7 @@ locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
 print(locale.getlocale())
 pagenr = 0
 
-df_all = pd.read_csv("Test.csv", sep = ";",quotechar='"')
+df_all = pd.read_csv("Kalender.csv", sep = ";",quotechar='"')
 print(df_all)
 df_new = {  "TagName":[],
             "TagZahl":[],
@@ -120,4 +120,4 @@ while True:
     pagenr = pagenr+1
 
 print(df_all)
-df_all.to_csv("Test.csv", sep=';', quoting = 1,quotechar='"',index=False)
+df_all.to_csv("Kalender.csv", sep=';', quoting = 1,quotechar='"',index=False)
