@@ -15,6 +15,7 @@ reformat_csv <- function(){
   cal$TimeAppoint$year[cal$TimeAppoint > as.POSIXlt(as.Date("2020-03-01"))] <- cal$TimeAppoint$year[cal$TimeAppoint > as.POSIXlt(as.Date("2020-03-01"))]-1
   cal$TimeFirstSeen <- as.numeric(cal$TimeAppoint)
   cal$TimeLastSeen <- as.numeric("Test")
+  cal$Type <- as.numeric("Test")
   write.csv2(cal, "Kalender.csv", row.names = F, quote = T)
     
   return(cal)

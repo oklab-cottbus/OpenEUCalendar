@@ -48,9 +48,14 @@ while True:
         #Alle Einträge der Seite einlesen
         for Eintrag in Eintraege:
             TagName = Eintrag.select(".date-block__day-text")[0].getText()
+
             TagZahl = Eintrag.select(".date-block__day")[0].getText()
             Monat = Eintrag.select(".date-block__month")[0].getText()
             Jahr = datetime.today().strftime("%Y")
+            if(len(Eintrag.select(".meta__item--type")) == 1):
+                Type = Eintrag.select(".meta__item--type")[0].getText()
+            else:
+                Type = "NA"
             #Temporäre Zeit für den vergleich der Aktuellen und der Teminzeit um die Jahreszahl zu ermitteln
             TempTime ="23:59:59"
 
@@ -100,7 +105,8 @@ while True:
                             "EventHash":EventHash,
                             "TimeAppoint":TimeAppoint,
                             "TimeFirstSeen":TimeFirstSeen,
-                            "TimeLastSeen":TimeLastSeen}
+                            "TimeLastSeen":TimeLastSeen,
+                            "Type":Type}
                 print(new_row)
                 df_all = df_all.append(new_row, ignore_index=True)
 
