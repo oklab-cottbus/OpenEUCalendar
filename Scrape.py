@@ -127,4 +127,4 @@ while True:
 
     print(df_all)
     df_all.to_csv("Kalender.csv", sep=';', quoting = 1,quotechar='"',index=False)
-    sleep(600)
+    time.sleep(600)
