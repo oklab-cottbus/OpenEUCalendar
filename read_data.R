@@ -3,7 +3,8 @@ Sys.setlocale("LC_TIME", "en_US.UTF-8")
 
 get_calendar_csv <- function(){
   cal <- read.csv(paste(root_path,"Kalender.csv",sep=""),sep = ";")
-  
+  cal$TimeFirstSeen <- as.POSIXct(cal$TimeFirstSeen,origin = "1970-01-01",tz = "CET")
+  cal$TimeLastSeen <- as.POSIXct(cal$TimeLastSeen,origin = "1970-01-01",tz = "CET")
   
   return(cal)
 }
