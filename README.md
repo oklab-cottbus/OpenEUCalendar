@@ -6,10 +6,10 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
 ### TODO
     - Speicherort der Kalender.csv ändern, damit remote zugriff möglich
       - zumbeispiel NAS
-    - TimeDeleted muss erkannt werden
-      - Termine einlesen
-      - full frame einlesen
-      - wenn termin schon enthalten nur TimeLastSeen updatens
+    - Pandas kann nicht einfach auf Samsng isntalliert werden.
+      - pip install pandas scheitert wegen der instsallation von numpy
+        - numpy über "its-pointless" repo installieren
+          - https://wiki.termux.com/wiki/Package_Management#its-pointless_.28live_the_dream.29
 
 ### Daten Scrapen
 - Jahreszahl muss noch hinzugefügt werden

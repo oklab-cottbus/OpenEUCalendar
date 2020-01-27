@@ -12,7 +12,7 @@ print(locale.getlocale())
 pagenr = 0
 
 df_all = pd.read_csv("Kalender.csv", sep = ";",quotechar='"')
-print(df_all["EventHash"])
+#print(df_all["EventHash"])
 df_new = {  "TagName":[],
             "TagZahl":[],
             "Monat":[],
@@ -30,8 +30,10 @@ for row in range(1,len(df_all["EventHash"])):
     seenall.add(df_all.loc[row,"EventHash"])
 
 while True:
-    Seite = requests.get("https://ec.europa.eu/commission/commissioners/2019-2024/calendar_en?page="+ str(pagenr))
-
+    url = "https://ec.europa.eu/commission/commissioners/2019-2024/calendar_en?page=" + str(pagenr)
+    Seite = requests.get(url)
+    print("hole Seite:" + str(pagenr))
+    print(url)
     SeiteText = BeautifulSoup(Seite.text)
     Eintraege = SeiteText.select(".listing__item")
 
@@ -83,7 +85,9 @@ while True:
             index = df_all[df_all['EventHash']==EventHash].index.item()
             #print(index)
             df_all.loc[index,"TimeLastSeen"] = TimeLastSeen
+            print(EventHash+"schon geloggt")
         else:
+            print(EventHash +"neu")
             new_row = {  "TagName":TagName,
                         "TagZahl":TagZahl,
                         "Monat":Monat,
@@ -95,8 +99,8 @@ while True:
                         "TimeAppoint":TimeAppoint,
                         "TimeFirstSeen":TimeFirstSeen,
                         "TimeLastSeen":TimeLastSeen}
-
-            df_all.append(new_row, ignore_index=True)
+            print(new_row)
+            df_all = df_all.append(new_row, ignore_index=True)
 
 
 # #Duplikate entfernen
@@ -119,5 +123,5 @@ while True:
     #os.rename('Kalender_filtered.csv', 'Kalender.csv')
     pagenr = pagenr+1
 
-#print(df_all)
+print(df_all)
 df_all.to_csv("Kalender.csv", sep=';', quoting = 1,quotechar='"',index=False)
