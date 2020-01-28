@@ -6,6 +6,8 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
 ### TODO
     - Speicherort der Kalender.csv ändern, damit remote zugriff möglich
       - zumbeispiel NAS
+    - Rechtsgrundlage für die Veröffentlichung der Termine?
+      - Warum haben einige Kommissare keine Termine
     - Pandas kann nicht einfach auf Samsng isntalliert werden.
       - pip install pandas scheitert wegen der instsallation von numpy
         - numpy über "its-pointless" repo installieren
