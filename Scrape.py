@@ -69,11 +69,17 @@ while True:
             # wenn nicht dann ist jahr = jahr
 
             TimeNow = datetime.today()
-            TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl+" "+TempTime,"%Y-%b-%d %H:%M:%S")
-            if(TimeAppoint < TimeNow):
-                Jahr = str(int(Jahr)+1)
+            try:
+                TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl+" "+TempTime,"%Y-%b-%d %H:%M:%S")
+                pass
+            except Exception as e:
+                TimeAppoint = "NA"
 
-            TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl,"%Y-%b-%d")
+            if(TimeAppoint != "NA"):
+                if(TimeAppoint < TimeNow):
+                    Jahr = str(int(Jahr)+1)
+            if(TimeAppoint != "NA"):
+                TimeAppoint = datetime.strptime(Jahr+"-"+Monat+"-"+TagZahl,"%Y-%b-%d")
             TimeFirstSeen = datetime.timestamp(datetime.now())
             TimeLastSeen = datetime.timestamp(datetime.now())
 
