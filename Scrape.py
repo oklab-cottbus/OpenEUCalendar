@@ -10,7 +10,7 @@ import locale
 import pandas as pd
 locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
 print(locale.getlocale())
-while True:
+#while True:
     pagenr = 0
 
     df_all = pd.read_csv("Kalender.csv", sep = ";",quotechar='"')
@@ -139,4 +139,4 @@ while True:
 
     print(df_all)
     df_all.to_csv("Kalender.csv", sep=';', quoting = 1,quotechar='"',index=False)
-    time.sleep(600)
+ #   time.sleep(600)
