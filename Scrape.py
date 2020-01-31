@@ -8,6 +8,17 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import locale
 import pandas as pd
+
+#pastebin
+api_dev_key = "012922d95854551f49006bd3efd75401"
+api_paste_key = "gCbVU8zM"
+api_user_key = "75bfb663bdb1eea2f70bcb8b782da84e"
+api_paste_code = ""
+api_option = "paste"
+api_paste_expire_date 	= '10M'
+api_paste_name = "OpenEuCalendar"
+
+
 locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
 print(locale.getlocale())
 #while True:
@@ -140,4 +151,10 @@ while True:
 
 print(df_all)
 df_all.to_csv("Kalender.csv", sep=';', quoting = 1,quotechar='"',index=False)
+
+api_paste_code = open("Kalender.csv", mode = "r").read()
+print(api_paste_code)
+userdata = {"api_paste_name":api_paste_name,"api_paste_expire_date":api_paste_expire_date,"api_dev_key":api_dev_key,"api_user_key": api_user_key, "api_paste_key": api_paste_key, "api_paste_code": api_paste_code, "api_option": api_option }
+resp = requests.post('https://pastebin.com/api/api_post.php', data=userdata)
+print(resp.text)
 #   time.sleep(600)
