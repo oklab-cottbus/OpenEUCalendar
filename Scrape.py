@@ -98,9 +98,9 @@ while True:
             index = df_all[df_all['EventHash']==EventHash].index.item()
             #print(index)
             df_all.loc[index,"TimeLastSeen"] = TimeLastSeen
-            print(EventHash+"schon geloggt")
+            print(EventHash+" schon geloggt")
         else:
-            print(EventHash +"neu")
+            #print(EventHash +" neu")
             new_row = {  "TagName":TagName,
                         "TagZahl":TagZahl,
                         "Monat":Monat,
@@ -115,6 +115,7 @@ while True:
                         "Type":Type}
             print(new_row)
             df_all = df_all.append(new_row, ignore_index=True)
+            seenall.add(EventHash)
 
 
 # #Duplikate entfernen
