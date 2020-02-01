@@ -153,7 +153,6 @@ print(df_all)
 df_all.to_csv("Kalender.csv", sep=';', quoting = 1,quotechar='"',index=False)
 
 api_paste_code = open("Kalender.csv", mode = "r").read()
-print(api_paste_code)
 userdata = {"api_paste_name":api_paste_name,"api_paste_expire_date":api_paste_expire_date,"api_dev_key":api_dev_key,"api_user_key": api_user_key, "api_paste_key": api_paste_key, "api_paste_code": api_paste_code, "api_option": api_option }
 resp = requests.post('https://pastebin.com/api/api_post.php', data=userdata)
 print(resp.text)
