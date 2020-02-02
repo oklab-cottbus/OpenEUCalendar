@@ -1,6 +1,8 @@
 library(RCurl)
 library(jsonlite)
 library(XML)
+library(ggplot2)
+library(lubridate)
 root_path <- ""
 Sys.setlocale("LC_TIME", "en_US.UTF-8")
 
@@ -30,7 +32,8 @@ get_pastebin_csv <- function(){
                        api_user_key = "75bfb663bdb1eea2f70bcb8b782da84e",
                        api_paste_key = paste_key,
                        api_option = "show_paste")
-  cal <- read.csv(text = eu_paste,sep=";")
+  
+  cal <- read.csv(text = eu_paste,sep=";",na.strings=c("","NA"))
   cal$TimeFirstSeen <- as.POSIXct(cal$TimeFirstSeen,origin = "1970-01-01",tz = "CET")
   cal$TimeLastSeen <- as.POSIXct(cal$TimeLastSeen,origin = "1970-01-01",tz = "CET")
   
@@ -50,3 +53,5 @@ reformat_csv <- function(){
   return(cal)
   
 }
+
+
