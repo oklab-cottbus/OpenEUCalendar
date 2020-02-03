@@ -22,6 +22,11 @@ vis_locations <- function(data){
   
 }
 
+vis_amount <- function(data){
+  ggplot(data = data)+
+    geom_bar(mapping = aes(x = Personen))
+}
+
 get_lonlat <- function(locations){
   locations <- subset(locations,!is.na(locations$data.Ort))
   locations$lon <- as.numeric("NA")
