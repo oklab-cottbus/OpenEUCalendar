@@ -30,7 +30,7 @@ vis_amount <- function(data){
 }
 
 vis_locations <- function(data){
-  #data <- add_coordinates(data)
+  data <- add_coordinates(data)
   data <- subset(data,!is.na(data$lon))
   data <- subset(data,!is.na(data$TimeAppoint))
   #cottbus <- c(left = 14.30, bottom = 51.74, right = 14.36, top = 51.78)
