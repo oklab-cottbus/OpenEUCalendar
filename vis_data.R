@@ -11,42 +11,28 @@ vis_times <- function(data){
   ggplot(plot_df)+
     geom_bar(mapping = aes(x = TimeFirst),fill = "red")+
     geom_bar(mapping = aes(x = TimeLast),fill = "blue")
-  
-  
-}
-
-vis_locations <- function(data){
-  #Koordinaten der verschiedenen Orte könnte über googlemapsapi herausgefunden werden
-  #Orte auflisten
-  locations <- unique(data.frame(data$Ort,data$Land))
-  data$lon <- 
-  print(locations)
-  
 }
 
 vis_amount <- function(data){
   ggplot(data = data)+
-    geom_bar(mapping = aes(x = Personen))
+    geom_bar(mapping = aes(x = Personen,
+                           fill = Type))+
+    theme(axis.text.x=element_text(angle = 45, hjust = 1))
 }
 
 vis_locations <- function(data){
   data <- add_coordinates(data)
   data <- subset(data,!is.na(data$lon))
   data <- subset(data,!is.na(data$TimeAppoint))
-  #cottbus <- c(left = 14.30, bottom = 51.74, right = 14.36, top = 51.78)
-  # lausitz <- c(left = 14.20, bottom = 51.60, right = 14.40, top = 51.80)
-   deutschland <- c(left = 7, bottom = 47, right = 15, top = 55)
-   europa <- c(left = -10, bottom = 30, right = 40, top = 60)
-  # berlin <- c(left = 13.1, bottom = 52.4, right = 13.75, top = 52.65)
-  # zeuthen <- c(left = 13.6, bottom = 52.3, right = 13.7, top = 52.4)
-   thismap <- europa
+  
+   thismap <- c(left = min(data$lon)-3, bottom = min(data$lat), right = max(data$lon), top = max(data$lat))
    map <- get_stamenmap(thismap, zoom = 4, maptype = "toner")
    mymap <-ggmap(map)
   print(str(data))
 
 mymap +
-    geom_line(data,mapping = aes(x = jitter(data$lon,factor = 10),
-                              y = jitter(data$lat,factor = 10),
+    geom_line(data,mapping = aes(x = data$lon,
+                              y = data$lat,
                               color = data$Personen,
                               group = data$Personen),
               size = 2)
