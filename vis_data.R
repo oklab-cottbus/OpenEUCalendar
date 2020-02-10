@@ -1,6 +1,7 @@
 library(ggmap)
 library(jsonlite)
 library(gganimate)
+library(leaflet)
 
 vis_times <- function(data){
   plot_df <- subset(data,!is.na(data$TimeLastSeen))
@@ -36,9 +37,31 @@ mymap +
                               color = data$Personen,
                               group = data$Personen),
               size = 2)
-#     transition_time(as.numeric(as.Date(TimeAppoint))) +
-#     ease_aes('linear')
+    # transition_time(as.numeric(as.Date(TimeAppoint))) +
+    # ease_aes('linear')
 # animate(p, nframes = 100, fps=3)
+}
+
+vis_locations_leaflet <- function(data){
+  data <- subset(data,!is.na(data$lon))
+  rainbow_pallet <- rainbow(n = 21)
+  Color <- rainbow_pallet[as.numeric(factor(data$Personen))]
+  
+  icons <- awesomeIcons(
+    icon = 'ios-close',
+    iconColor = Color,
+    library = 'ion',
+    markerColor = "blue"
+  )
+  m <- leaflet() %>%
+    addTiles() %>%  # Add default OpenStreetMap map tiles
+    addAwesomeMarkers(lng=data$lon,
+               lat=data$lat,
+               label=data$Personen,
+               popup = paste(data$Titel,data$TagZahl,data$Monat),
+               icon = icons,
+               clusterOptions = markerClusterOptions())
+  m
 }
 get_lonlat <- function(Ort, Land){
   
