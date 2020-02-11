@@ -10,8 +10,9 @@ vis_times <- function(data){
   print(plot_df)
   
   ggplot(plot_df)+
-    geom_bar(mapping = aes(x = TimeFirst),fill = "red")+
-    geom_bar(mapping = aes(x = TimeLast),fill = "blue")
+    geom_bar(mapping = aes(x = TimeFirst, fill = format(TimeFirstSeen,"%a")),color = "red")+
+    geom_bar(mapping = aes(x = TimeLast, fill = format(TimeLastSeen,"%a")),color = "blue")+
+    theme(axis.text.x=element_text(angle = 45, hjust = 1))
 }
 
 vis_amount <- function(data){
