@@ -11,10 +11,14 @@ vis_times <- function(data){
   plot_df$TimeLast <- format(round_date(plot_df$TimeLastSeen,"10 min"),"%H:%M")
   #print(plot_df)
   
-  ggplot(plot_df)+
-    #geom_bar(mapping = aes(x = TimeFirst, fill = format(TimeFirstSeen,"%Y-%d-%m")),color = "red")+
-    geom_bar(mapping = aes(x = TimeLast, fill = format(TimeLastSeen,"%Y-%d-%m")),color = "blue", position = "dodge")+
+  p <- ggplot(plot_df)+
+    #geom_bar(mapping = aes(x = TimeFirst, fill = format(TimeFirstSeen,"%Y-%m-%d")),color = "red")+
+    geom_bar_interactive(mapping = aes(tooltip = format(TimeLastSeen,"%Y-%m-%d"),x = TimeLast), position = "stack")+
     theme(axis.text.x=element_text(angle = 45, hjust = 1))
+  girafe(code = print(p))
+  # ggplot(plot_df)+
+  #   geom_point(mapping = aes(x = TimeFirst,
+  #                            y = TimeLast))
 }
 
 vis_amount <- function(data){
