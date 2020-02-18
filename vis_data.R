@@ -2,16 +2,17 @@ library(ggmap)
 library(jsonlite)
 library(gganimate)
 library(leaflet)
+library(ggiraph)
 
 vis_times <- function(data){
   plot_df <- subset(data,!is.na(data$TimeLastSeen))
   plot_df$TimeFirst <- format(round_date(plot_df$TimeFirstSeen,"10 min"),"%H:%M")
   plot_df$TimeLast <- format(round_date(plot_df$TimeLastSeen,"10 min"),"%H:%M")
-  print(plot_df)
+  #print(plot_df)
   
   ggplot(plot_df)+
-    geom_bar(mapping = aes(x = TimeFirst, fill = format(TimeFirstSeen,"%a")),color = "red")+
-    geom_bar(mapping = aes(x = TimeLast, fill = format(TimeLastSeen,"%a")),color = "blue")+
+    #geom_bar(mapping = aes(x = TimeFirst, fill = format(TimeFirstSeen,"%Y-%d-%m")),color = "red")+
+    geom_bar(mapping = aes(x = TimeLast, fill = format(TimeLastSeen,"%Y-%d-%m")),color = "blue", position = "dodge")+
     theme(axis.text.x=element_text(angle = 45, hjust = 1))
 }
 
