@@ -6,6 +6,7 @@ library(ggiraph)
 
 vis_times <- function(data){
   plot_df <- subset(data,!is.na(data$TimeLastSeen))
+  plot_df <- subset(plot_df,max(round_date(plot_df$TimeLastSeen,"10min")) != round_date(plot_df$TimeLastSeen,"10min"))
   plot_df$TimeFirst <- format(round_date(plot_df$TimeFirstSeen,"10 min"),"%H:%M")
   plot_df$TimeLast <- format(round_date(plot_df$TimeLastSeen,"10 min"),"%H:%M")
   #print(plot_df)
