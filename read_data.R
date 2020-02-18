@@ -3,6 +3,7 @@ library(jsonlite)
 library(XML)
 library(ggplot2)
 library(lubridate)
+
 root_path <- ""
 Sys.setlocale("LC_TIME", "en_US.UTF-8")
 
@@ -54,4 +55,7 @@ reformat_csv <- function(){
   
 }
 
-
+extract_members <- function(data){
+  data$Members <- gsub("^with\\s","", str_extract(data$Titel,"(?<=[mM]eets\\s)[^,]*"))
+  return(data)
+}
