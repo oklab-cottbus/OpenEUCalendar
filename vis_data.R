@@ -3,6 +3,7 @@ library(jsonlite)
 library(gganimate)
 library(leaflet)
 library(ggiraph)
+library(dplyr)
 
 vis_times <- function(data){
   plot_df <- subset(data,!is.na(data$TimeLastSeen))
@@ -11,9 +12,9 @@ vis_times <- function(data){
   plot_df$TimeLast <- format(round_date(plot_df$TimeLastSeen,"10 min"),"%H:%M")
   
   p <- ggplot(plot_df)+
-    #geom_bar(mapping = aes(x = TimeFirst, fill = format(TimeFirstSeen,"%Y-%m-%d")),color = "red")+
-    geom_bar_interactive(mapping = aes(tooltip = format(TimeLastSeen,"%Y-%m-%d"),x = TimeLast), position = "stack")+
-    theme(axis.text.x=element_text(angle = 45, hjust = 1))
+    #geom_bar_interactive(mapping = aes(tooltip = format(TimeFirstSeen,"%Y-%m-%d"),x = TimeFirst, fill = "FirstSeen"))+
+    geom_bar_interactive(mapping = aes(tooltip = format(TimeLastSeen,"%Y-%m-%d"),x = TimeLast, fill = "LastSeen"), color = "black",position = "stack")+
+    theme(axis.text.x=element_text(angle = 70, hjust = 1))
   girafe(code = print(p))
   # ggplot(plot_df)+
   #   geom_point(mapping = aes(x = TimeFirst,
@@ -24,7 +25,7 @@ vis_amount <- function(data){
   ggplot(data = data)+
     geom_bar(mapping = aes(x = Personen,
                            fill = Type))+
-    theme(axis.text.x=element_text(angle = 45, hjust = 1))
+    theme(axis.text.x=element_text(angle = 90, hjust = 1))
 }
 
 vis_locations <- function(data){
@@ -109,4 +110,14 @@ add_coordinates <- function(data){
     data$lat[pos] <- locations$lat[locations$data.Ort == data$Ort[pos]]
   }
   data
+}
+
+vis_canceled <- function(data){
+  data <- data %>%
+    mutate(TimeAppoint = as.Date(TimeAppoint)) %>%
+    mutate(canceled = ifelse(TimeLastSeen<=TimeAppoint,T,F))
+  
+  ggplot(data)+
+    geom_bar_interactive(mapping = aes(x = canceled))
+  
 }
