@@ -71,7 +71,9 @@ vis_locations_leaflet <- function(data){
   m
 }
 get_lonlat <- function(Ort, Land){
-  
+  if(Ort == "Frankfourt"){
+    Ort <- "Frankfurt"
+  }
   Ort = gsub(" ","+",Ort)
   Country = gsub(" ","+",Land)
   print(paste(Ort,Country))
