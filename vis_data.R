@@ -29,7 +29,7 @@ vis_amount <- function(data){
 }
 
 vis_locations <- function(data){
-  data <- add_coordinates(data)
+  #data <- add_coordinates(data)
   data <- subset(data,!is.na(data$lon))
   data <- subset(data,!is.na(data$TimeAppoint))
   
@@ -43,7 +43,7 @@ mymap +
                               y = data$lat,
                               color = data$Personen,
                               group = data$Personen),
-              size = 2)
+              size = 1)
     # transition_time(as.numeric(as.Date(TimeAppoint))) +
     # ease_aes('linear')
 # animate(p, nframes = 100, fps=3)
@@ -69,6 +69,15 @@ vis_locations_leaflet <- function(data){
                icon = icons,
                clusterOptions = markerClusterOptions())
   m
+}
+
+vis_locations_amount <- function(data){
+  p <- ggplot(data)+
+    geom_bar_interactive(mapping = aes(x = Land,
+                                       tooltip = Ort))+
+    #scale_y_log10()+
+    theme(axis.text.x=element_text(angle = 60, hjust = 1))
+  girafe(code = print(p),width_svg = 15,height_svg = 10)
 }
 get_lonlat <- function(Ort, Land){
   if(Ort == "Frankfourt"){
@@ -122,4 +131,59 @@ vis_canceled <- function(data){
   ggplot(data)+
     geom_bar_interactive(mapping = aes(x = canceled))
   
+}
+
+vis_LastSeendiff <- function(data){
+  
+  
+  ggplot(data)+
+    geom_point(mapping = aes(x = TimeLastSeen,
+                             y = difftime(data$TimeLastSeen,data$TimeFirstSeen,units = "hours"),
+                             color = format(TimeLastSeen,"%U")))
+}
+vis_FirstSeendiff <- function(data){
+  
+  
+  ggplot(data)+
+    geom_point(mapping = aes(x = TimeFirstSeen,
+                             y = difftime(data$TimeLastSeen,data$TimeFirstSeen,units = "hours"),
+                             color = format(TimeFirstSeen,"%U")))
+}
+
+vis_LastSeenVsAppoint <- function(data){
+  data <- data %>%
+    mutate(TimeAppoint = as.Date(TimeAppoint)) %>%
+    mutate(canceled = ifelse(TimeLastSeen<=TimeAppoint,T,F))
+  
+  ggplot(data)+
+    geom_point(mapping = aes(x = as.Date(TimeLastSeen),
+                             y = difftime(as.Date(TimeAppoint),TimeLastSeen,units = "days"),
+                             color = canceled))
+}
+
+vis_FirstSeenVsAppoint <- function(data){
+  ggplot(data)+
+    geom_point(mapping = aes(x = as.Date(TimeFirstSeen),
+                             y = difftime(as.Date(TimeAppoint),as.Date(TimeFirstSeen),units = "hours")))
+}
+
+
+vis_AppointVsPerson <- function(data){
+  #normalisieren
+  data <- data %>%
+    mutate()
+  ggplot(data)+
+    geom_bar(mapping = aes(x = Personen))+
+    facet_grid(rows = vars(format(as.Date(TimeAppoint),"%u")))+
+    theme(axis.text.x=element_text(angle = 60, hjust = 1))
+}
+
+vis_appointmensperday <- function(data){
+    data <- subset(data, !is.na(as.Date(data$TimeAppoint)))
+    counts <- as.data.frame(table(as.Date(data$TimeAppoint)))
+    data <- data %>% add_count(TimeAppoint)
+    ggplot(data, aes(x=format(as.Date(TimeAppoint),"%u"),
+                     y=format(as.Date(TimeAppoint),"%Y-%U"))) + 
+    geom_tile(mapping = aes(fill = n))
+    #geom_bar(data, mapping = aes(x = as.Date(TimeAppoint)))
 }
