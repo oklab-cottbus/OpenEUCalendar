@@ -30,10 +30,4 @@ Ideen:
     - Koordinaten der Orte herausfinden
   - Termin Zeitpunkte herausfinden
     - Termine enthalten nur Tag und Ort, Uhrzeit ist vielleicht aus den Zeitpunkten ersichtlich an denen die Termine eingestellt und rausgenommen werden
-  -
-# NTN
-- mögliche locales des Systems über bash:``locale -a`` herausfinden
-- - Pandas kann nicht einfach auf Samsung installiert werden.
-  - pip install pandas scheitert wegen der instsallation von numpy
-    - numpy über "its-pointless" repo installieren
-      - https://wiki.termux.com/wiki/Package_Management#its-pointless_.28live_the_dream.29
+  
