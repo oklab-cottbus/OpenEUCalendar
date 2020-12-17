@@ -2,6 +2,10 @@
 Die Eu Kommission stellt Termine der Kommissionsmitglieder*innen auf einer Website online
 Scrape.py sammelt alle 10 min alle verfügbaren Termine von der Seite und speichert sie in eine CSV
 
+#Docker
+läuft nun in Dockercontainer auf dem oklabcottbus experimentalserver
+über crontab wird das script ausgeführt und der output in die cronjob.txt geschrieben:
+50 * * * * docker run openeucalendar > ~/cronjob.txt
 ## Visualisierung der ScrapeEuCalendar
 CSV Dateien mit den gesammelten Terminen soll auf einer Karte visualisiert werden
 
