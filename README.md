@@ -20,22 +20,6 @@ CSV Dateien mit den gesammelten Terminen soll auf einer Karte visualisiert werde
 
 Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt werden
 
-### TODO
-
-    - Rechtsgrundlage für die Veröffentlichung der Termine?
-    - Warum haben einige Kommissare keine Termine
-
-### Daten Scrapen
-  - Scrape.py säubern und übersichtlicher machen
-
-### Daten verändern
-  - Wochentage in der csv sind auch manchmal "von bis"
-    - also: Thu-Fri
-      - Termintag wird momentan ignoriert
-  - Teilweise keine Orte angegeben
-    - Was ist da los?
-      - Meist handelt es sich bei diesen Terminen um Einladungen von den jeweiligen Kommissionsmitgliedern, somit scheint das Treffen am Ort des jeweiligen Kommisionsbüros statt zu finden. Noch nicht ganz klar
-
 
 ### Daten analysieren
 Ideen:
