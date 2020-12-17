@@ -1,11 +1,20 @@
 # OpenEuCalendar
-Die Eu Kommission stellt Termine der Kommissionsmitglieder*innen auf einer Website online
-Scrape.py sammelt alle 10 min alle verfügbaren Termine von der Seite und speichert sie in eine CSV
+Die Eu Kommission stellt Termine der Kommissionsmitglieder*innen auf einer Websit zur Verfügung.
+https://ec.europa.eu/commission/commissioners/calendar/commission/commissioners/2019-2024%3Fpage%3D1_en
+
+Diese werden jedoch nach eineiger Zeit gelöscht und sind somit nicht mehr zugänglich.
+
+Das Script Scrape.py sammelt alle aktuell verfügbaren Termine und speichert sie in eine CSV-Datei
+
 
 #Docker
-läuft nun in Dockercontainer auf dem oklabcottbus experimentalserver
+Das Script läuft in einem Dockercontainer auf dem oklabcottbu experimentalserver.
 über crontab wird das script ausgeführt und der output in die cronjob.txt geschrieben:
+
+```
 50 * * * * docker run openeucalendar > ~/cronjob.txt
+```
+
 ## Visualisierung der ScrapeEuCalendar
 CSV Dateien mit den gesammelten Terminen soll auf einer Karte visualisiert werden
 
@@ -14,11 +23,7 @@ Die Position eines jeden EU Kommissionsmitglied soll auf einer Karte angezeigt w
 ### TODO
 
     - Rechtsgrundlage für die Veröffentlichung der Termine?
-      - Warum haben einige Kommissare keine Termine
-    - Pandas kann nicht einfach auf Samsung isntalliert werden.
-      - pip install pandas scheitert wegen der instsallation von numpy
-        - numpy über "its-pointless" repo installieren
-          - https://wiki.termux.com/wiki/Package_Management#its-pointless_.28live_the_dream.29
+    - Warum haben einige Kommissare keine Termine
 
 ### Daten Scrapen
   - Scrape.py säubern und übersichtlicher machen
