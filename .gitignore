@@ -1,3 +1,8 @@
+.bash_history
+.cache/
+.local/
+.sudo_as_admin_successful
+.viminfo
 .Rproj.user
 .Rhistory
 .RData
