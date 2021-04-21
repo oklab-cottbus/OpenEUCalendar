@@ -14,6 +14,7 @@ vis_times <- function(data){
   p <- ggplot(plot_df)+
     #geom_bar_interactive(mapping = aes(tooltip = format(TimeFirstSeen,"%Y-%m-%d"),x = TimeFirst, fill = "FirstSeen"))+
     geom_bar_interactive(mapping = aes(tooltip = format(TimeLastSeen,"%Y-%m-%d"),x = TimeLast, fill = "LastSeen"), color = "black",position = "stack")+
+    geom_
     theme(axis.text.x=element_text(angle = 70, hjust = 1))
   girafe(code = print(p))
   # ggplot(plot_df)+
