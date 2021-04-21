@@ -14,7 +14,6 @@ vis_times <- function(data){
   p <- ggplot(plot_df)+
     #geom_bar_interactive(mapping = aes(tooltip = format(TimeFirstSeen,"%Y-%m-%d"),x = TimeFirst, fill = "FirstSeen"))+
     geom_bar_interactive(mapping = aes(tooltip = format(TimeLastSeen,"%Y-%m-%d"),x = TimeLast, fill = "LastSeen"), color = "black",position = "stack")+
-    geom_
     theme(axis.text.x=element_text(angle = 70, hjust = 1))
   girafe(code = print(p))
   # ggplot(plot_df)+
@@ -80,10 +79,21 @@ vis_locations_amount <- function(data){
     theme(axis.text.x=element_text(angle = 60, hjust = 1))
   girafe(code = print(p),width_svg = 15,height_svg = 10)
 }
+
 get_lonlat <- function(Ort, Land){
   if(Ort == "Frankfourt"){
     Ort <- "Frankfurt"
   }
+  if(Ort == "BRUSELS"){
+    Ort <- "BRUSSELS"
+  }
+  else if(Ort == "" || Land =="")
+  {
+    return(data.frame(lon = NA, lat = NA))
+  }
+  longlat <- tryCatch({
+    
+  
   Ort = gsub(" ","+",Ort)
   Country = gsub(" ","+",Land)
   print(paste(Ort,Country))
@@ -97,12 +107,20 @@ get_lonlat <- function(Ort, Land){
   longlat <- subset(longlat,longlat$importance == max(longlat$importance))[1,]
   longlat <- data.frame(lon = longlat$lon, lat = longlat$lat)
   longlat
- 
+  },
+  error = function(cond){
+    debugprint("Fehler bei Abfrage")
+    debugprint(cond)
+    return(data.frame(lon = NA, lat = NA))
+  })
+  
+  return(longlat)
 }
 
 add_coordinates <- function(data){
   locations <- unique(data.frame(data$Ort,data$Land))
   locations <- subset(locations,!is.na(locations$data.Ort))
+  print(locations)
   locations$lon <- as.numeric("NA")
   locations$lat <- as.numeric("NA")
   #mit ggmaps
